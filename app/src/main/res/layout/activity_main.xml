@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <SeekBar
+        android:id="@+id/seekBar1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="22"/>
+
+    <TextView
+        android:id="@+id/ProgressValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Threshold: 22"
+        android:textSize="18sp"/>
+
+    <Button
+        android:id="@+id/measureButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Measure"/>
+
+    <TextView
+        android:id="@+id/readingsView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Distance (m):"
+        android:textSize="18sp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/feetView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Distance (ft):"
+        android:textSize="18sp"
+        android:gravity="center"/>
+
+    <!-- 🔹 GraphView Component -->
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/graph"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/graph_signal"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/graph_pulse"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+
+</LinearLayout>
