@@ -115,4 +115,8 @@ public class Sonar extends Thread {
     public short[] getPulse() {
         return pulse;
     }
+
+    public void setChirpDuration(double durationSeconds) {
+        t1 = durationSeconds;
+    }
 }

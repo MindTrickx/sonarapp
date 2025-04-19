@@ -20,6 +20,13 @@
         android:text="Threshold: 22"
         android:textSize="18sp"/>
 
+    <EditText
+        android:id="@+id/durationInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter chirp duration (ms)"
+        android:inputType="number" />
+
     <Button
         android:id="@+id/measureButton"
         android:layout_width="match_parent"

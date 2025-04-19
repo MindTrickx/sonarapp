@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         final SeekBar seekBar = findViewById(R.id.seekBar1);
         final TextView readingView = findViewById(R.id.readingsView);
         final TextView feetView = findViewById(R.id.feetView);
+        final EditText durationInput = findViewById(R.id.durationInput);
 
         // 🔹 Initialize GraphView
         graphView = findViewById(R.id.graph);  // GraphView must be added to XML
@@ -140,6 +142,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sonsys.thresholdPeak = seekBar.getProgress();
+                String durationText = durationInput.getText().toString().trim();
+                if (!durationText.isEmpty()) {
+                    try {
+                        double durationMs = Double.parseDouble(durationText);
+                        double durationSec = durationMs / 1000.0;
+                        sonsys.setChirpDuration(durationSec);
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(getApplicationContext(), "Invalid chirp duration!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
                 sonsys.run();
                 final DecimalFormat df = new DecimalFormat("#.####");
                 String distanceMeters;
