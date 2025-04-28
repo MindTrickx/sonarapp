@@ -59,16 +59,17 @@ public class FilterAndClean {
         // Complex[] compPulse = Complex.convertShortToComplex(pulse);
         Complex[] fftSignal = FFT.fft(compSignal);
         // Complex[] fftPulse = FFT.fft(compPulse);
-        Complex[] fftPulse = null;
-        if (cachedPulse == null) {
-
-            Complex[] compPulse = Complex.convertShortToComplex(pulse);
-            fftPulse = FFT.fft(compPulse);
-            cachedPulse = fftPulse;
-        } else {
-            fftPulse = cachedPulse;
-
-        }
+        Complex[] compPulse = Complex.convertShortToComplex(pulse);
+        Complex[] fftPulse = FFT.fft(compPulse);
+//        if (cachedPulse == null) {
+//
+//            Complex[] compPulse = Complex.convertShortToComplex(pulse);
+//            fftPulse = FFT.fft(compPulse);
+//            cachedPulse = fftPulse;
+//        } else {
+//            fftPulse = cachedPulse;
+//
+//        }
         Complex[] Z = new Complex[pulse.length];
         int Zlen = Z.length;
         for (int i = 0; i < Zlen; i++) {

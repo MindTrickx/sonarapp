@@ -25,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter chirp duration (ms)"
+        android:text="10"
         android:inputType="number" />
 
     <Button
@@ -41,13 +42,13 @@
         android:textSize="18sp"
         android:gravity="center"/>
 
-    <TextView
-        android:id="@+id/feetView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Distance (ft):"
-        android:textSize="18sp"
-        android:gravity="center"/>
+<!--    <TextView-->
+<!--        android:id="@+id/feetView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Distance (ft):"-->
+<!--        android:textSize="18sp"-->
+<!--        android:gravity="center"/>-->
 
     <!-- 🔹 GraphView Component -->
     <com.jjoe64.graphview.GraphView

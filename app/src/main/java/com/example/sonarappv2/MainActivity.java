@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView seekBarValue = findViewById(R.id.ProgressValue);
         final SeekBar seekBar = findViewById(R.id.seekBar1);
         final TextView readingView = findViewById(R.id.readingsView);
-        final TextView feetView = findViewById(R.id.feetView);
+        //final TextView feetView = findViewById(R.id.feetView);
         final EditText durationInput = findViewById(R.id.durationInput);
 
         // 🔹 Initialize GraphView
@@ -159,9 +159,9 @@ public class MainActivity extends AppCompatActivity {
                 String distanceFeet;
                 if (Sonar.result != null) {
                     distanceMeters = df.format(sonsys.result.distance);
-                    distanceFeet = df.format(sonsys.result.distance*3.28084);
+                    //distanceFeet = df.format(sonsys.result.distance*3.28084);
                     readingView.setText(distanceMeters);
-                    feetView.setText(distanceFeet);
+                    //feetView.setText(distanceFeet);
 
                     series.resetData(generateSeries(sonsys.result.xcorr));
                     seriesSignal.resetData(generateSeries(sonsys.result.signal));
