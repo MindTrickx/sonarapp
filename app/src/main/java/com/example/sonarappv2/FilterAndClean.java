@@ -24,52 +24,30 @@ public class FilterAndClean {
         Log.d("Result Distance", "In start of Result Distance");
         soundSpeed = 331 + 0.6*15;//331 + 0.6*(double)tempature;
         peakThreshold = pthreshold * multiple;
-        // Preprocessing for speed
-        // strip out first set of zeros. This deals with concurrency issue
-        // between the recording buffer and the play buffer
+
         int startIndex = 0;
         for (startIndex = 0; startIndex < signal.length; startIndex++) {
             if ((signal[startIndex]) > threshold) {
                 break;
             }
         }
-        int samplesPerMeter = (int)(sampleRate / soundSpeed); // seed of sound is 330 meters
+        int samplesPerMeter = (int)(sampleRate / soundSpeed);
         // per second in air.
-        int maxSamples =(int) (samplesPerMeter * maxDistanceMeters * 2); // We
-        // multiple
-        // by
-        // 2
-        // because
-        // it
-        // is
-        // round
-        // trip
+        int maxSamples =(int) (samplesPerMeter * maxDistanceMeters * 2);
         maxSamples = (int) Math.pow(2,
-                Math.ceil(Math.log(maxSamples) / Math.log(2)));// Samples must
-        // be a power of
-        // 2 for FFT to
-        // run smoothly.
-        // Trim the pulse and signal based on range and concurrency mismatch
+                Math.ceil(Math.log(maxSamples) / Math.log(2)));
         signal = Arrays
                 .copyOfRange(signal, startIndex, startIndex + maxSamples);
         pulse = Arrays.copyOfRange(pulse, 0, maxSamples);
 
         double distance = 0;
         Complex[] compSignal = Complex.convertShortToComplex(signal);
-        // Complex[] compPulse = Complex.convertShortToComplex(pulse);
+
         Complex[] fftSignal = FFT.fft(compSignal);
-        // Complex[] fftPulse = FFT.fft(compPulse);
+
         Complex[] compPulse = Complex.convertShortToComplex(pulse);
         Complex[] fftPulse = FFT.fft(compPulse);
-//        if (cachedPulse == null) {
-//
-//            Complex[] compPulse = Complex.convertShortToComplex(pulse);
-//            fftPulse = FFT.fft(compPulse);
-//            cachedPulse = fftPulse;
-//        } else {
-//            fftPulse = cachedPulse;
-//
-//        }
+
         Complex[] Z = new Complex[pulse.length];
         int Zlen = Z.length;
         for (int i = 0; i < Zlen; i++) {
@@ -78,8 +56,7 @@ public class FilterAndClean {
 
         Complex[] ZH = SuppressNegative(Z);
 
-        Complex[] invZ = FFT.fftShift(FFT.ifft(ZH)); // Check for absolute and
-        // shifting.
+        Complex[] invZ = FFT.fftShift(FFT.ifft(ZH));
 
         // Make all the elements abs valued.
         int lenInvZ = invZ.length;
@@ -87,18 +64,11 @@ public class FilterAndClean {
         for (int i = 0; i < lenInvZ; i++) {
             absInvZ[i] = invZ[i].abs();
         }
-        // double[] absInvZ = CrossCorr(signal, pulse) ;
-        // int lenInvZ = absInvZ.length;
+
 
         double[] absXcorr = absInvZ.clone();
 
-        // Remove the dead zone
-        // int firstIndex = getMaxIndex(absInvZ);
-        // double Value1 = Math.abs(absInvZ[firstIndex]);
-        // absInvZ = zeroDeadZone(firstIndex,deadZoneLenght,absInvZ);
-        // absInvZ = Arrays.copyOfRange(absInvZ,firstIndex+deadZoneLenght,
-        // absInvZ.length);
-        // int maxIndex = getMaxIndex(absInvZ);//+firstIndex+deadZoneLenght;
+
         int[] peaks = peakIndex(absInvZ, peakThreshold, sharpness);
         int firstIndex = peaks[0];
         int secondIndex = peaks[1];
@@ -143,7 +113,7 @@ public class FilterAndClean {
         return zHilbert;
     }
 
-    // Public Void Kill dead zone
+
     public static double[] zeroDeadZone(int index, int pulseLenght,
                                         double[] signal) {
         index = index + pulseLenght;
@@ -170,22 +140,14 @@ public class FilterAndClean {
                         count++;
                     }
 
-                    i+=10; // For bumbs
+                    i+=10;
 
                 }
             }
         }
-        //double[] realivant = Arrays.copyOfRange(timeSeries, start-30, start+500);
+
         return peaks;
 
     }
-    /*
-     * //This method calculate public static double[] CrossCorr(short[] signal,
-     * short[] pulse){ double[] xcorrR = new double[signal.length+pulse.length];
-     * for(int i=0; i<xcorrR.length; i++ ){ int sum =0; for(int j=0;
-     * j<pulse.length; j++){ if(i+j<signal.length){ sum+= signal[i+j]*pulse[j];
-     * } } xcorrR[i] = Math.abs(sum); }
-     *
-     * return xcorrR; }
-     */
+
 }

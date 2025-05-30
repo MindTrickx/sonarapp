@@ -20,9 +20,9 @@ public class Sonar extends Thread {
     private Context context;
     private final int bufferSize = 32768;
     private final int sampleRate = 44100;
-    private final int durationMs = 500; // Chirp duration in milliseconds
-    private final int startFreq = 500;  // Start frequency in Hz
-    private final int endFreq = 2000;   // End frequency in Hz
+    private final int durationMs = 500;
+    private final int startFreq = 500;
+    private final int endFreq = 2000;
     public int deadZoneLength = 60;
     public double maxDistanceMeters = 5;
     public int threshold = 10000;
@@ -46,11 +46,6 @@ public class Sonar extends Thread {
 
     @Override
     public void run() {
-        Log.i("Audio", "Running Audio Thread");
-        //AudioRecord recorder = null;
-        Log.i("Test", "Reached this statement");
-        //short[] buffer = new short[bufferSize];
-        //int numSamples = (int) ((durationMs / 1000.0) * sampleRate);
         int numSamples = (int) Math.round(t1 * sampleRate);
         // short[] pulse = new short[numSamples];
         pulse = DSP.ConvertToShort(DSP.padSignal(DSP.HanningWindow(
@@ -61,15 +56,9 @@ public class Sonar extends Thread {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
             Log.e("Audio", "Microphone permission not granted!");
-            return; // 🚨 Exit to prevent crash
+            return;
         }
 
-
-//        for (int i = 0; i < numSamples; i++) {
-//            double t = (double) i / sampleRate;
-//            double freq = startFreq + (endFreq - startFreq) * (t / (durationMs / 1000.0));
-//            pulse[i] = (short) (Short.MAX_VALUE * Math.sin(2 * Math.PI * freq * t));
-//        }
 
 
         AudioTrack track = new AudioTrack(
@@ -102,16 +91,10 @@ public class Sonar extends Thread {
         result = FilterAndClean.Distance(recordedBuffer, pulse, sampleRate, threshold,
                 maxDistanceMeters, deadZoneLength, thresholdPeak, 15);
         Log.d("Sonar.java", "result is " + (result != null) + "result.distance: " + result.distance);
-//        recorder = new AudioRecord(AudioSource.MIC, sampleRate,
-//                AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT,
-//                bufferSize * 2);
-//
-//        try {
-//            recorder.startRecording();
-//        }
+
     }
 
-    // 🔹 Getter method to access the pulse
+
     public short[] getPulse() {
         return pulse;
     }

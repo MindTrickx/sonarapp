@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // 🔹 Check for Microphone Permission
+        // Check for Microphone Permission
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
@@ -80,8 +80,8 @@ public class MainActivity extends AppCompatActivity {
         //final TextView feetView = findViewById(R.id.feetView);
         final EditText durationInput = findViewById(R.id.durationInput);
 
-        // 🔹 Initialize GraphView
-        graphView = findViewById(R.id.graph);  // GraphView must be added to XML
+        // Initialize GraphView
+        graphView = findViewById(R.id.graph);
         series = new LineGraphSeries<>();
         graphView.addSeries(series);
         thresholdSeries = new LineGraphSeries<>();
@@ -92,8 +92,8 @@ public class MainActivity extends AppCompatActivity {
         graphView.getViewport().setScalable(true);
         graphView.getViewport().setScrollable(true);
 
-        // 🔹 Initialize the second graph for `result.signal`
-        graphViewSignal = findViewById(R.id.graph_signal);  // Add this in XML
+        // Initialize the second graph for `result.signal`
+        graphViewSignal = findViewById(R.id.graph_signal);
         seriesSignal = new LineGraphSeries<>();
         graphViewSignal.addSeries(seriesSignal);
 
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         graphViewSignal.getViewport().setScalable(true);
         graphViewSignal.getViewport().setScrollable(true);
 
-        // 🔹 Initialize Graph for Pulse
+        // Initialize Graph for Pulse
         graphViewPulse = findViewById(R.id.graph_pulse);
         seriesPulse = new LineGraphSeries<>();
         graphViewPulse.addSeries(seriesPulse);
@@ -114,8 +114,8 @@ public class MainActivity extends AppCompatActivity {
         graphViewPulse.getViewport().setScalable(true);
         graphViewPulse.getViewport().setScrollable(true);
         graphViewPulse.getViewport().setYAxisBoundsManual(true);
-        graphViewPulse.getViewport().setMinY(-500);  // Adjust as needed
-        graphViewPulse.getViewport().setMaxY(500);   // Adjust as needed
+        graphViewPulse.getViewport().setMinY(-500);
+        graphViewPulse.getViewport().setMaxY(500);
 
         seekBar.setProgress(29);
         seekBarValue.setText(String.valueOf(seekBar.getProgress()));
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
                     series.resetData(generateSeries(sonsys.result.xcorr));
                     seriesSignal.resetData(generateSeries(sonsys.result.signal));
-                    // 🔹 Fetch pulse data and plot it
+                    // Fetch pulse data and plot it
                     short[] pulseData = sonsys.getPulse();
                     if (pulseData != null) {
                         seriesPulse.resetData(generateSeries(pulseData));
@@ -181,7 +181,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // 🔹 Updated generateSeries method
     public DataPoint[] generateSeries(double[] signal) {
         int length = signal.length;
         DataPoint[] data = new DataPoint[length];
@@ -191,12 +190,11 @@ public class MainActivity extends AppCompatActivity {
         return data;
     }
 
-    // 🔹 Overloaded method for short[] to convert it to double[]
     public DataPoint[] generateSeries(short[] signal) {
         int length = signal.length;
         DataPoint[] data = new DataPoint[length];
         for (int i = 0; i < length; i++) {
-            data[i] = new DataPoint(i, (double) signal[i]);  // Convert short to double
+            data[i] = new DataPoint(i, (double) signal[i]);
         }
         return data;
     }
@@ -205,8 +203,8 @@ public class MainActivity extends AppCompatActivity {
         double multiple = 1000000000.0;
         double multipliedThreshold = threshold * multiple;
         DataPoint[] thresholdData = new DataPoint[]{
-                new DataPoint(0, multipliedThreshold),      // Start of the graph
-                new DataPoint(2000, multipliedThreshold)    // End of the graph (same max X as the viewport)
+                new DataPoint(0, multipliedThreshold),
+                new DataPoint(2000, multipliedThreshold)
         };
 
         thresholdSeries.resetData(thresholdData);
